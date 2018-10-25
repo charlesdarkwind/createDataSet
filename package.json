@@ -1,0 +1,16 @@
+{
+  "name": "backtester",
+  "version": "10.0.0",
+  "main": "start.js",
+  "license": "MIT",
+  "scripts": {
+    "createDataSet": "node ./createDataSet.js"
+  },
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "latest": "^0.2.0",
+    "moment": "^2.22.2",
+    "node-binance-api": "^0.8.3",
+    "yarn": "^1.9.4"
+  },
+}
