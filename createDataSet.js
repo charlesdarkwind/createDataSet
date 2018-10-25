@@ -3,6 +3,11 @@ const moment = require('moment');
 const fs = require('fs');
 let delay = 0;
 
+// Intervals: 1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h, 6h, 8h, 12h, 1d, 3d, 1w, 1M
+//*********************
+const grain = '15m';
+//*********************
+
 const main = {
     time: Date.now(), // When the data set was made
     ohlc: {},
@@ -32,11 +37,11 @@ binance.exchangeInfo((error, data) => {
     // get ohlc
     allPairs.map(pair => {
         setTimeout(() => {
-            binance.candlesticks(pair, '15m', (err, ticks, symbol) => {
+            binance.candlesticks(pair, grain, (err, ticks, symbol) => {
 
                 if (err) throw Error(err);
 
-                main.ohlc = ticks;
+
                 let t = [], h = [], l = [], c = [], o = [], v = [];
 
                 ticks.map(tick => {
@@ -49,6 +54,7 @@ binance.exchangeInfo((error, data) => {
                 });
 
                 main.time[symbol] = t;
+                main.ohlc[symbol] = ticks;
                 main.open[symbol] = o;
                 main.high[symbol] = h;
                 main.low[symbol] = l;
