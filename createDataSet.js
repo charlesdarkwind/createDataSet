@@ -9,8 +9,8 @@ const grain = '15m';
 //*********************
 
 const main = {
-    time: Date.now(), // When the data set was made
-    ohlc: {},
+    created: Date.now(), // When the data set was made
+    time: {},
     closes: {},
     open: {},
     low: {},
@@ -54,7 +54,6 @@ binance.exchangeInfo((error, data) => {
                 });
 
                 main.time[symbol] = t;
-                main.ohlc[symbol] = ticks;
                 main.open[symbol] = o;
                 main.high[symbol] = h;
                 main.low[symbol] = l;

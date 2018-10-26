@@ -21,15 +21,20 @@
 		"ctrl + shift + x"		pour le menu add-ons
 		"ctrl + shift + e"		pour revenir à l'arborescence des fichiers
 
-	Add-ons utiles:
-		- dotENV,
-		- material theme (puis l'activer dans les options),
-		- one dark pro (un autre theme sympa),
+	Autre add-ons utiles:
 		- vscode-icons,
 		- vscode-json (permettra de rendre le dataset comprehensible)
 
+	Choisir un bon thème visuel si ca vous chante:
+		ex:
+		- material theme
+		- shades of purple
+		- one dark pro
 
-6.
+
+6. Clonez la repository (vous devez d'abord accepter mon invitation)
+
+    Ouvrez github desktop,
 
 
 7. ouvrir cmder et installer yarn (pas comme YARN, cest autre chose, un package manager), tappez:
