@@ -4,7 +4,7 @@
 	3- download visual studio code; https://code.visualstudio.com/ 	(text editor)
 	4- download cmder; https://github.com/cmderdev/cmder/releases/download/v1.3.6/cmder.zip	(terminal for windows)
 	5- download git; https://git-scm.com/downloads	    		(show repo stuff)
-	6- download nodejs https://nodejs.org/en/download/;	 	(needed)
+	6- download nodejs; https://nodejs.org/en/download/;	 	(needed)
 
 	installez tout en fesant "suivant"
 
