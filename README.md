@@ -5,12 +5,11 @@
 	4- download cmder; https://github.com/cmderdev/cmder/releases/download/v1.3.6/cmder.zip	(terminal for windows)
 	5- download git; https://git-scm.com/downloads	    		(show repo stuff)
 	6- download nodejs; https://nodejs.org/en/download/;	 	(needed)
-
-	installez tout en fesant "suivant"
-
+	
+	Et installer
 1)____________________________________________________________________________________________________
 
-	- Pour cmder: extraire dans un dossier de de Documents (mes documents),
+	- Pour cmder: extraire dans un dossier dans Documents (mes documents),
 		Créez des raccourcis du fichier où bon vous semble.
 
 	- Dans visual studio code (or "vscode"):
