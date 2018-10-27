@@ -3,7 +3,7 @@ require('dotenv').config({ path: 'variables.env' });
 process.env.UV_THREADPOOL_SIZE = 128;
 const moment = require('moment');
 const fs = require('fs');
-const grains = ['1m', '3m', '5m', '15m', '30m', '1h', '2h', '4h', '6h', '8h', '12h', '1d', '3d', '1w', '1M'];
+const intervals = ['1m', '3m', '5m', '15m', '30m', '1h', '2h', '4h', '6h', '8h', '12h', '1d', '3d', '1w', '1M'];
 const stamp = moment().format('YYYY-MMM-D-H-mm');
 const split = stamp.split('-');
 const datehuman = `${split[2]}-${split[1]}-${split[0]}_${split[3]}h${split[4]}`;
@@ -26,14 +26,13 @@ binance.exchangeInfo((error, data) => {
     if (error) console.error(error);
 
     fs.writeFileSync('./exchangeInfos.json', JSON.stringify(data, null, 4));
-
     const allPairs = data.symbols.filter(pair => pair.quoteAsset == 'BTC').map(pair => pair.symbol);
 
-    grains.map(grain => { // Iterate over grains
+    intervals.map(interval => { // Iterate over intervals
 
-        main[grain] = {
+        main[interval] = {
             created: Date.now(),
-            grain,
+            interval,
             time: {},
             closes: {},
             open: {},
@@ -45,10 +44,10 @@ binance.exchangeInfo((error, data) => {
         allPairs.map(pair => { /* Iterate over pairs
 
             * Delay queries so we don't bust the limit of 1200 requests per min
-            * 1 min / 1200 = 50ms, and we have 2280 queries (15 grains * 152 pairs) */
+            * 1 min / 1200 = 50ms, and we have 2280 queries (15 intervals * 152 pairs) */
 
             setTimeout(() => {
-                binance.candlesticks(pair, grain, (err, ticks, symbol) => {
+                binance.candlesticks(pair, interval, (err, ticks, symbol) => {
                     if (err) console.error(err, err.body || '');
 
                     let t = [], h = [], l = [], c = [], o = [], v = [];
@@ -61,20 +60,20 @@ binance.exchangeInfo((error, data) => {
                         v.push(parseFloat(tick[5]));
                     });
 
-                    main[grain].time[symbol] = t;
-                    main[grain].open[symbol] = o;
-                    main[grain].high[symbol] = h;
-                    main[grain].low[symbol] = l;
-                    main[grain].closes[symbol] = c;
-                    main[grain].volume[symbol] = v;
+                    main[interval].time[symbol] = t;
+                    main[interval].open[symbol] = o;
+                    main[interval].high[symbol] = h;
+                    main[interval].low[symbol] = l;
+                    main[interval].closes[symbol] = c;
+                    main[interval].volume[symbol] = v;
 
-                    // Ecrire un fichier .json pour chaque grain,
+                    // Ecrire un fichier .json pour chaque interval,
                     // windows écrase notre fichier 1m par le 1M.., on utilisera '1MO' pour le filename
-                    fs.writeFileSync(`./dataSets/${datehuman}_${grain === '1M' ? '1MO' : grain}.json`, JSON.stringify(main[grain]));
+                    fs.writeFileSync(`./dataSets/${datehuman}_${interval === '1M' ? '1MO' : interval}.json`, JSON.stringify(main[interval]));
 
-                    console.log(`Done ${grain}, ${symbol}`);
+                    console.log(`Done ${interval}, ${symbol}`);
 
-                    if (grain == grains.length - 1 && symbol == allPairs.length - 1) {
+                    if (interval == intervals.length - 1 && symbol == allPairs.length - 1) {
                         console.log(`Done all, refresh explorer!`);
                         process.exit();
                     }
