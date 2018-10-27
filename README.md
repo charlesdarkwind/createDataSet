@@ -78,5 +78,6 @@
 7)____________________________________________________________________________________________________
 
 	--	Pour obtenir la derniere version du code, il faut fair eun pull.
-		Essayez de "pull" dans git hub desktop si vous voyez qu'il y a du nouveau
+		Essayez de "pull" dans git hub desktop si vous voyez qu'il y a du nouveau, le dossier "dataSets"
 		Si cela ne marche pas, avec cmder, faites un "git stash" dans le dossier du projet et puis réessayez
+			sauvegardez tout dataset
