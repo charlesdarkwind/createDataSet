@@ -48,7 +48,7 @@
 
 4)____________________________________________________________________________________________________
 
-	--  s'inscrire sur binance.com: https://www.binance.com/?ref=10096558  (ref: 10096558 si demandé, shameless plug :-) )
+	--  s'inscrire sur binance.com: https://www.binance.com/?ref=10096558  ref: 10096558 si demandé, shameless plug :-)
 
 	Allez a https://www.binance.com/userCenter/createApi.html
 
