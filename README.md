@@ -1,10 +1,10 @@
 
-	1- download winrar; https://www.rarlab.com/download.htm											(tp unzip)
-	2- download github desktop; https://desktop.github.com/											(to clone repo)
-	3- download visual studio code; https://code.visualstudio.com/ 									(text editor)	(install add-ons it proposes)
-	4- download cmder; https://github.com/cmderdev/cmder/releases/download/v1.3.6/cmder.zip  			(terminal for windows)
-	5- download git; https://git-scm.com/downloads														(show repo stuff)
-	6- download nodejs https://nodejs.org/en/download/;												(needed)
+	1- download winrar; https://www.rarlab.com/download.html    	(tp unzip)
+	2- download github desktop; https://desktop.github.com/		(to clone repo)
+	3- download visual studio code; https://code.visualstudio.com/ 	(text editor)
+	4- download cmder; https://github.com/cmderdev/cmder/releases/download/v1.3.6/cmder.zip	(terminal for windows)
+	5- download git; https://git-scm.com/downloads	    		(show repo stuff)
+	6- download nodejs https://nodejs.org/en/download/;	 	(needed)
 
 	installez tout en fesant "suivant"
 
