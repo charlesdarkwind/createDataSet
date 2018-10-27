@@ -8,7 +8,7 @@
 
 	installez tout en fesant "suivant"
 
-1)___________________________________________________________________________________________________________________________________
+1)____________________________________________________________________________________________________
 
 	- Pour cmder: extraire dans un dossier de de Documents (mes documents),
 		Créez des raccourcis du fichier où bon vous semble.
@@ -26,7 +26,7 @@
 			- one dark pro 		(theme),
 			- shades of purple 	(theme)
 
-2)___________________________________________________________________________________________________________________________________
+2)____________________________________________________________________________________________________
 
 	-- ouvrir cmder et installer yarn , un package manager. (pas comme YARN de hadoop)
 
@@ -37,7 +37,7 @@
 
 		C:\Users\[VOTRE USER]\Documents\createDataSet
 
-3)___________________________________________________________________________________________________________________________________
+3)____________________________________________________________________________________________________
 
 	-- 	toujours dans cmder, avec la commande cd, rendez vous dans le document de createDataSet, tappez
 
@@ -46,7 +46,7 @@
 		- Cela installe toute les dependencies pour le programme:
 		- si cela échoue, tentez " npm install ", les warning sont normal.
 
-4)___________________________________________________________________________________________________________________________________
+4)____________________________________________________________________________________________________
 
 	--  s'inscrire sur binance.com: https://www.binance.com/?ref=10096558  (ref: 10096558 si demandé, shameless plug :-) )
 
@@ -55,7 +55,7 @@
 		- créez votre clef API
 		- sauvegarder le API key et le Secret quelque part,
 
-5)___________________________________________________________________________________________________________________________________
+5)____________________________________________________________________________________________________
 
 	-- Créez un fichier " variables.env " à la racine du projet/documente avec ce contenue:
 
@@ -63,7 +63,7 @@
 	APIKEY=[votre api key]
 	APISECRET=[votre secret]
 
-6)___________________________________________________________________________________________________________________________________
+6)____________________________________________________________________________________________________
 
 	-- Pour lancer le programme depuis son répertoire, tappez:
 
