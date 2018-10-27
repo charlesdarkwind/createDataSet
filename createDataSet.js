@@ -36,7 +36,6 @@ binance.exchangeInfo((error, data) => {
                 if (err) throw Error(err);
 
                 let t = [], h = [], l = [], c = [], o = [], v = [];
-
                 ticks.map(tick => {
                     t.push(parseFloat(tick[0]));
                     o.push(parseFloat(tick[1]));
