@@ -1,79 +1,74 @@
 
-1. download winrar; https://www.rarlab.com/download.htm											(pour un-zip)
+	1- download winrar; https://www.rarlab.com/download.htm											(tp unzip)
+	2- download github desktop; https://desktop.github.com/											(to clone repo)
+	3- download visual studio code; https://code.visualstudio.com/ 									(text editor)	(install add-ons it proposes)
+	4- download cmder; https://github.com/cmderdev/cmder/releases/download/v1.3.6/cmder.zip  			(terminal for windows)
+	5- download git; https://git-scm.com/downloads														(show repo stuff)
+	6- download nodejs https://nodejs.org/en/download/;												(needed)
 
-2. download github desktop; https://desktop.github.com/											(pour pouvoir cloner le repository du code)
+	installez tout en fesant "suivant"
 
-3. download visual studio code; https://code.visualstudio.com/ 									(un editeur de text pour developpeurs)
+1)___________________________________________________________________________________________________________________________________
 
-4. download cmder; https://github.com/cmderdev/cmder/releases/download/v1.3.6/cmder.zip  		(un terminal bien sympa pour windows permettant d'utiliser des commandes linux)
+	- Pour cmder: extraire dans un dossier de de Documents (mes documents),
+		Créez des raccourcis du fichier où bon vous semble.
 
-5. download git; https://git-scm.com/downloads													(va être dans vscode pour voir si il y a du nouveau sur la repo à aller chercher (pull))
+	- Dans visual studio code (or "vscode"):
 
-
-	installez tout en fesant "suivant".
-
-    pour cmder, l'extraire dans un dossier de vos documents et il suffit ensuite de double-cliquer l'icone,
-	j'ai personnelement mit des raccourcis dans le menu demarrer, bureau ect
-
-	vscode remarquera que vous utilisez node/json/javascript et vous proposera des add-on, c'est essentiel de les installer (puis ensuite restart vscode apres que tout est installé)
-
-	Aussi:
 		"ctrl + shift + x"		pour le menu add-ons
 		"ctrl + shift + e"		pour revenir à l'arborescence des fichiers
 
-	Autre add-ons utiles:
-		- vscode-icons,
-		- vscode-json (permettra de rendre le dataset comprehensible)
+		Add-ons utiles:
 
-	Choisir un bon thème visuel si ca vous chante:
-		ex:
-		- material theme
-		- shades of purple
-		- one dark pro
+			- vscode-json 		(permettra de rendre le dataset comprehensible)
+			- vscode-icons,
+			- material theme 	(theme),
+			- one dark pro 		(theme),
+			- shades of purple 	(theme)
 
+2)___________________________________________________________________________________________________________________________________
 
-6. Clonez la repository (vous devez d'abord accepter mon invitation)
-
-    Ouvrez github desktop,
-
-
-7. ouvrir cmder et installer yarn (pas comme YARN, cest autre chose, un package manager), tappez:
+	-- ouvrir cmder et installer yarn , un package manager. (pas comme YARN de hadoop)
 
 	" npm install yarn -g "
 
+		- Pour copier la repo avec git desktop, trouvez le bouton "cloner" ou "clone"
+		- Pour l'emplacement: faire un dossier dans mes documents, ex:
 
-8. toujours dans cmder, avec la commande cd, rendez vous dans le document de createDataSet,
-	vous devez installer toute les dependencies pour le programme, tappez:
+		C:\Users\[VOTRE USER]\Documents\createDataSet
 
-	" ­yarn "       *si cela échoue, tentez "npm install"
+3)___________________________________________________________________________________________________________________________________
 
-	Il y a toutjours des warnings, c'est normal.
+	-- 	toujours dans cmder, avec la commande cd, rendez vous dans le document de createDataSet, tappez
 
 
-9. Variable.env: il est n'écéssaire d'avoir un fichier nommé " variables.env " à la racine du projet/document
-	(celui qui à été créé en clonant la repo dans github desktop).
+		" ­yarn "
+		- Cela installe toute les dependencies pour le programme:
+		- si cela échoue, tentez " npm install ", les warning sont normal.
 
-	Le contenu doit être comme suit:
+4)___________________________________________________________________________________________________________________________________
 
+	--  s'inscrire sur binance.com: https://www.binance.com/?ref=10096558  (ref: 10096558 si demandé, shameless plug :-) )
+
+	Allez a https://www.binance.com/userCenter/createApi.html
+
+		- créez votre clef API
+		- sauvegarder le API key et le Secret quelque part,
+
+5)___________________________________________________________________________________________________________________________________
+
+	-- Créez un fichier " variables.env " à la racine du projet/documente avec ce contenue:
 
 	NODE_ENV=production
 	APIKEY=[votre api key]
 	APISECRET=[votre secret]
 
+6)___________________________________________________________________________________________________________________________________
 
-	Pour les variables APIKEY et APISECRET, vous avez besoin d'un compte binance;
-	s'inscrire sur binance.com en utilisant ce lien https://www.binance.com/?ref=10096558  (ref: 10096558 si demandé)
-
-	Allez a https://www.binance.com/userCenter/createApi.html  et créez votre clef API, sauvegarder le API key et le "secret",
-	(il n'apparaitra plus ensuite) Faites save.
-
-10. Dans le haut du fichier createDataSet.js, changez le grain
-
-
-11. Pour lancer le programme tappez:
+	-- Pour lancer le programme depuis son répertoire, tappez:
 
 	" yarn createDataSet "
 
-	Dans le sous-dossier nommé "dataSets", il va y avoir un nouveau fichier json.
-
-	Le fichier sera incompréhensible, si vous avez installé le add-on "vscode-json", ouvrez le .json et tappez " ctrl + alt + b "
+		- Dans le haut du fichier nommé createDataSet.js; ajustez le grain le grain, ex: 1m, 3m, 5m, 15m 1h 1d
+		- Les fichiers sont créers dans le dossier data set.
+		- Avec "vscode-json", ouvrez le .json et tappez " ctrl + alt + b " pour rendre le json un peu plus comprehensible
