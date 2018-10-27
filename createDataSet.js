@@ -1,5 +1,6 @@
 "use strict";
 require('dotenv').config({ path: 'variables.env' });
+process.env.UV_THREADPOOL_SIZE = 128;
 const moment = require('moment');
 const fs = require('fs');
 const grains = ['1m', '3m', '5m', '15m', '30m', '1h', '2h', '4h', '6h', '8h', '12h', '1d', '3d', '1w', '1M'];
@@ -8,6 +9,8 @@ const split = stamp.split('-');
 const datehuman = `${split[2]}-${split[1]}-${split[0]}_${split[3]}h${split[4]}`;
 let main = {};
 let delay = 0;
+
+if (!fs.existsSync('./dataSets')) fs.mkdirSync('./dataSets');
 
 const binance = require('node-binance-api')().options({
     APIKEY: process.env.APIKEY,
@@ -47,7 +50,13 @@ binance.exchangeInfo((error, data) => {
 
             setTimeout(() => {
                 binance.candlesticks(pair, grain, (err, ticks, symbol) => {
-                    if (err) console.error(err);
+                    if (err) {
+                        console.error(err, err.body || '');
+                        console.log(symbol, grain, grain);
+                    }
+                    if (!grain || !grain) {
+                        console.log(symbol, grain, grain);
+                    }
 
                     let t = [], h = [], l = [], c = [], o = [], v = [];
                     ticks.map(tick => {
@@ -66,11 +75,12 @@ binance.exchangeInfo((error, data) => {
                     main[grain].closes[symbol] = c;
                     main[grain].volume[symbol] = v;
 
-                    // Ecrire un fichier .json pour chaque grain
-                    fs.writeFileSync(`./dataSets/${datehuman}_${grain}.json`, JSON.stringify(main[grain]));
-                    console.log(`Done ${grain}, ${pair}`);
+                    // Ecrire un fichier .json pour chaque grain,
+                    // windows écrase notre fichier 1m par le 1M.., on utilisera '1MO' pour le filename
+                    fs.writeFileSync(`./dataSets/${datehuman}_${grain === '1M' ? '1MO' : grain}.json`, JSON.stringify(main[grain]));
+                    console.log(`Done ${grain}, ${symbol}`);
 
-                    if (grain == grains.length - 1 && pair == allPairs.length - 1) {
+                    if (grain == grains.length - 1 && symbol == allPairs.length - 1) {
                         console.log(`Done all, refresh explorer!`);
                         process.exit();
                     }

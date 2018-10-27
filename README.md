@@ -36,7 +36,7 @@
 		- Pour copier la repo avec git desktop, ouvrez le programme et trouvez le bouton "cloner" ou "clone"
 		- Pour l'emplacement: faire un dossier dans mes documents, ex:
 
-		C:\Users\[VOTRE USER]\Documents\createDataSet
+		C:\Users\[USER]\Documents\createDataSet
 
 3)____________________________________________________________________________________________________
 
@@ -68,7 +68,7 @@
 
 	-- Pour lancer le programme depuis son répertoire, tappez:
 
-	" yarn createDataSet "
+	" yarn start "
 
 		- Cela va creer un fichier .json pour les 15 grains et contenant les 152 paires
 			(Prend 2 mins sur mon ordi mais un laptop est 3-4 fois + lent)
@@ -77,7 +77,7 @@
 
 7)____________________________________________________________________________________________________
 
-	--	Pour obtenir la derniere version du code, il faut fair eun pull.
-		Essayez de "pull" dans git hub desktop si vous voyez qu'il y a du nouveau, le dossier "dataSets"
-		Si cela ne marche pas, avec cmder, faites un "git stash" dans le dossier du projet et puis réessayez
-			sauvegardez tout dataset
+	--	Pour obtenir la derniere version du code, il faut faire un "pull".
+		- Essayez de "pull" dans github desktop si vous voyez qu'il y a du nouveau.
+		- Si cela ne marche pas, avec cmder, faites un "git stash" dans le dossier du projet et puis réessayez
+			(sauvegardez tout data sets importants en premier lieu)
