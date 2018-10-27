@@ -2,65 +2,81 @@
 require('dotenv').config({ path: 'variables.env' });
 const moment = require('moment');
 const fs = require('fs');
-const promises = [];
-const grain = '15m'; // Intervals: 1m, 3m, 5m, 15m, 30m, 1h, 2h, 4h, 6h, 8h, 12h, 1d, 3d, 1w, 1M
+const grains = ['1m', '3m', '5m', '15m', '30m', '1h', '2h', '4h', '6h', '8h', '12h', '1d', '3d', '1w', '1M'];
+const stamp = moment().format('YYYY-MMM-D-H-mm');
+const split = stamp.split('-');
+const datehuman = `${split[2]}-${split[1]}-${split[0]}_${split[3]}h${split[4]}`;
+let main = {};
+let delay = 0;
 
 const binance = require('node-binance-api')().options({
     APIKEY: process.env.APIKEY,
     APISECRET: process.env.APISECRET,
     useServerTime: true,
-    recvWindow: 120000,
+    recvWindow: 3200000,
     test: true
 });
 
-const main = {
-    created: Date.now(), // When the data set was made
-    time: {},
-    closes: {},
-    open: {},
-    low: {},
-    high: {},
-    volume: {},
-};
+console.log('Getting latest exchange infos...'); // https://api.binance.com/api/v1/exchangeInfo
 
 binance.exchangeInfo((error, data) => {
-    if (error) throw Error(error);
+    if (error) console.error(error);
 
-    console.log('Gathering data...');
+    fs.writeFileSync('./exchangeInfos.json', JSON.stringify(data, null, 4));
     const allPairs = data.symbols.filter(pair => pair.quoteAsset == 'BTC').map(pair => pair.symbol);
+    console.log(`Gathering data for ${allPairs.length} pairs and ${grains.length} grains.`);
 
-    // get ohlc
-    allPairs.map(pair => {
-        promises.push(new Promise(resolve => {
-            binance.candlesticks(pair, grain, (err, ticks, symbol) => {
-                if (err) throw Error(err);
+    grains.map(grain => { // Iterate grains
 
-                let t = [], h = [], l = [], c = [], o = [], v = [];
-                ticks.map(tick => {
-                    t.push(parseFloat(tick[0]));
-                    o.push(parseFloat(tick[1]));
-                    h.push(parseFloat(tick[2]));
-                    l.push(parseFloat(tick[3]));
-                    c.push(parseFloat(tick[4]));
-                    v.push(parseFloat(tick[5]));
+        main[grain] = {
+            created: Date.now(),
+            grain,
+            time: {},
+            closes: {},
+            open: {},
+            low: {},
+            high: {},
+            volume: {},
+        };
+
+        // Iterate over pairs
+        allPairs.map(pair => { /*
+
+            * Delay queries so we don't bust the limit of 1200 requests per min
+            * 1 min / 1200 = 50ms, and we have 2280 queries (15 grains * 152 pairs) */
+
+            setTimeout(() => {
+                binance.candlesticks(pair, grain, (err, ticks, symbol) => {
+                    if (err) console.error(err);
+
+                    let t = [], h = [], l = [], c = [], o = [], v = [];
+                    ticks.map(tick => {
+                        t.push(parseFloat(tick[0]));
+                        o.push(parseFloat(tick[1]));
+                        h.push(parseFloat(tick[2]));
+                        l.push(parseFloat(tick[3]));
+                        c.push(parseFloat(tick[4]));
+                        v.push(parseFloat(tick[5]));
+                    });
+
+                    main[grain].time[symbol] = t;
+                    main[grain].open[symbol] = o;
+                    main[grain].high[symbol] = h;
+                    main[grain].low[symbol] = l;
+                    main[grain].closes[symbol] = c;
+                    main[grain].volume[symbol] = v;
+
+                    // Ecrire un fichier .json pour chaque grain
+                    fs.writeFileSync(`./dataSets/${datehuman}_${grain}.json`, JSON.stringify(main[grain]));
+                    console.log(`Done ${grain}, ${pair}`);
+
+                    if (grain == grains.length - 1 && pair == allPairs.length - 1) {
+                        console.log(`Done all, refresh explorer!`);
+                        process.exit();
+                    }
                 });
-
-                main.time[symbol] = t;
-                main.open[symbol] = o;
-                main.high[symbol] = h;
-                main.low[symbol] = l;
-                main.closes[symbol] = c;
-                main.volume[symbol] = v;
-                resolve();
-            });
-        }));
-    });
-
-    Promise.all(promises).then(() => {
-        const tag = moment().format('YYYY_MMMD');
-        fs.writeFileSync(`./dataSets/dataSet_${tag}.json`, JSON.stringify(main));
-        fs.writeFileSync('./exchangeInfos.json', JSON.stringify(data, null, 4));
-        console.log(`dataSet_${tag}.json done, refresh files explorer!`);
-        process.exit();
+            }, delay); delay += 55;
+        });
     });
 });
+

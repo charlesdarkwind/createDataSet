@@ -1,48 +1,49 @@
 
-	1- download winrar; https://www.rarlab.com/download.html    	(tp unzip)
-	2- download github desktop; https://desktop.github.com/		(to clone repo)
+	1- download winrar; https://www.rarlab.com/download.html    	(or 7-zip)
+	2- download github desktop; https://desktop.github.com/		(for cloning the repo)
 	3- download visual studio code; https://code.visualstudio.com/ 	(text editor)
 	4- download cmder; https://github.com/cmderdev/cmder/releases/download/v1.3.6/cmder.zip	(terminal for windows)
-	5- download git; https://git-scm.com/downloads	    		(show repo stuff)
+	5- download git; https://git-scm.com/downloads	    		(needed)
 	6- download nodejs; https://nodejs.org/en/download/;	 	(needed)
 
-	installez tout en fesant "suivant"
+	Installez tout en fesant "suivant"
 
 1)____________________________________________________________________________________________________
 
 	- Pour cmder: extraire dans un dossier de de Documents (mes documents),
-		Créez des raccourcis du fichier où bon vous semble.
+		Créez des raccourcis du fichier cmder.exe.
 
 	- Dans visual studio code (or "vscode"):
 
-		"ctrl + shift + x"		pour le menu add-ons
-		"ctrl + shift + e"		pour revenir à l'arborescence des fichiers
+		"ctrl + shift + x"		shortcut pour le menu add-ons
+		"ctrl + shift + e"		shortcut pour revenir à l'arborescence des fichiers
+		"ctrl + b"				ferme le pannel
 
 		Add-ons utiles:
 
 			- vscode-json 		(permettra de rendre le dataset comprehensible)
-			- vscode-icons,
+			- vscode-icons,		(meilleur icones)
 			- material theme 	(theme),
 			- one dark pro 		(theme),
 			- shades of purple 	(theme)
 
 2)____________________________________________________________________________________________________
 
-	-- ouvrir cmder et installer yarn , un package manager. (pas comme YARN de hadoop)
+	-- ouvrir cmder et installer yarn, un package manager. (rien à voir avec Hadoop);
 
 	" npm install yarn -g "
 
-		- Pour copier la repo avec git desktop, trouvez le bouton "cloner" ou "clone"
+		- Pour copier la repo avec git desktop, ouvrez le programme et trouvez le bouton "cloner" ou "clone"
 		- Pour l'emplacement: faire un dossier dans mes documents, ex:
 
 		C:\Users\[VOTRE USER]\Documents\createDataSet
 
 3)____________________________________________________________________________________________________
 
-	-- 	toujours dans cmder, avec la commande cd, rendez vous dans le document de createDataSet, tappez
-
+	-- 	toujours dans cmder, avec la commande cd, rendez vous dans le document de createDataSet que vous avez choisi;
 
 		" ­yarn "
+
 		- Cela installe toute les dependencies pour le programme:
 		- si cela échoue, tentez " npm install ", les warning sont normal.
 
@@ -59,9 +60,9 @@
 
 	-- Créez un fichier " variables.env " à la racine du projet/documente avec ce contenue:
 
-	NODE_ENV=production
-	APIKEY=[votre api key]
-	APISECRET=[votre secret]
+		NODE_ENV=production
+		APIKEY=[votre api key]
+		APISECRET=[votre secret]
 
 6)____________________________________________________________________________________________________
 
@@ -69,6 +70,13 @@
 
 	" yarn createDataSet "
 
-		- Dans le haut du fichier nommé createDataSet.js; ajustez le grain le grain, ex: 1m, 3m, 5m, 15m 1h 1d
+		- Cela va creer un fichier .json pour les 15 grains et contenant les 152 paires
+			(Prend 2 mins sur mon ordi mais un laptop est 3-4 fois + lent)
 		- Les fichiers sont créers dans le dossier data set.
-		- Avec "vscode-json", ouvrez le .json et tappez " ctrl + alt + b " pour rendre le json un peu plus comprehensible
+		- Avec "vscode-json", ouvrez le .json et tappez " ctrl + alt + b " pour beautify
+
+7)____________________________________________________________________________________________________
+
+	--	Pour obtenir la derniere version du code, il faut fair eun pull.
+		Essayez de "pull" dans git hub desktop si vous voyez qu'il y a du nouveau
+		Si cela ne marche pas, avec cmder, faites un "git stash" dans le dossier du projet et puis réessayez
