@@ -26,10 +26,10 @@ binance.exchangeInfo((error, data) => {
     if (error) console.error(error);
 
     fs.writeFileSync('./exchangeInfos.json', JSON.stringify(data, null, 4));
-    const allPairs = data.symbols.filter(pair => pair.quoteAsset == 'BTC').map(pair => pair.symbol);
-    console.log(`Gathering data for ${allPairs.length} pairs and ${grains.length} grains.`);
 
-    grains.map(grain => { // Iterate grains
+    const allPairs = data.symbols.filter(pair => pair.quoteAsset == 'BTC').map(pair => pair.symbol);
+
+    grains.map(grain => { // Iterate over grains
 
         main[grain] = {
             created: Date.now(),
@@ -42,21 +42,14 @@ binance.exchangeInfo((error, data) => {
             volume: {},
         };
 
-        // Iterate over pairs
-        allPairs.map(pair => { /*
+        allPairs.map(pair => { /* Iterate over pairs
 
             * Delay queries so we don't bust the limit of 1200 requests per min
             * 1 min / 1200 = 50ms, and we have 2280 queries (15 grains * 152 pairs) */
 
             setTimeout(() => {
                 binance.candlesticks(pair, grain, (err, ticks, symbol) => {
-                    if (err) {
-                        console.error(err, err.body || '');
-                        console.log(symbol, grain, grain);
-                    }
-                    if (!grain || !grain) {
-                        console.log(symbol, grain, grain);
-                    }
+                    if (err) console.error(err, err.body || '');
 
                     let t = [], h = [], l = [], c = [], o = [], v = [];
                     ticks.map(tick => {
@@ -78,6 +71,7 @@ binance.exchangeInfo((error, data) => {
                     // Ecrire un fichier .json pour chaque grain,
                     // windows écrase notre fichier 1m par le 1M.., on utilisera '1MO' pour le filename
                     fs.writeFileSync(`./dataSets/${datehuman}_${grain === '1M' ? '1MO' : grain}.json`, JSON.stringify(main[grain]));
+
                     console.log(`Done ${grain}, ${symbol}`);
 
                     if (grain == grains.length - 1 && symbol == allPairs.length - 1) {
