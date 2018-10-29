@@ -2,11 +2,11 @@
 	Exemple d'usage une fois importé et nommé "dataset_1h" pour le .json 1 hour:
 
 		JavaScript:
-			const dataset = require('dataSets/29-Oct-2018_14h16_1h.json');
+			const dataset_1h = require('dataSets/29-Oct-2018_14h16_1h.json');
 			const pair = 'ETHBTC';
-			const openTime = dataset.time[pair];
-			const close = dataset.close[pair];
-			const volume = dataset.volume[pair];
+			const openTime = dataset_1h.time[pair];
+			const close = dataset_1h.close[pair];
+			const volume = dataset_1h.volume[pair];
 
 		Intervales: 1m,3m,5m,15m,30m,1h,2h,4h,6h,8h,12h,1d,3d,1w,1M
 
@@ -29,7 +29,7 @@ ________________________________________________________________________________
 
 	- Pour cmder: extraire dans un dossier de de Documents (mes documents),
 		Créez des raccourcis du fichier cmder.exe.
-		
+
 2)____________________________________________________________________________________________________
 
 	-- ouvrir cmder et installer yarn, un package manager. (rien à voir avec Hadoop);
