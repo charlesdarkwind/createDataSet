@@ -4,9 +4,10 @@
 		JavaScript:
 			const dataset_1h = require('dataSets/29-Oct-2018_14h16_1h.json');
 			const pair = 'ETHBTC';
-			const openTime = dataset_1h.time[pair];
-			const close = dataset_1h.close[pair];
-			const volume = dataset_1h.volume[pair];
+
+			const openTime = dataset_1h.time[pair][15];
+			const close = dataset_1h.close[pair][15];
+			const volume = dataset_1h.volume[pair][15];
 
 		Intervales: 1m,3m,5m,15m,30m,1h,2h,4h,6h,8h,12h,1d,3d,1w,1M
 
