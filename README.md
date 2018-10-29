@@ -1,4 +1,21 @@
 
+	Exemple d'usage une fois importé et nommé "dataset_1h" pour le .json 1 hour:
+
+		JavaScript:
+			const dataset = require('dataSets/29-Oct-2018_14h16_1h.json');
+			const pair = 'ETHBTC';
+			const openTime = dataset.time[pair];
+			const close = dataset.close[pair];
+			const volume = dataset.volume[pair];
+
+		Intervales: 1m,3m,5m,15m,30m,1h,2h,4h,6h,8h,12h,1d,3d,1w,1M
+
+		api binance: https://github.com/binance-exchange/binance-official-api-docs/
+		librarie que j'utilise: https://github.com/jaggedsoft/node-binance-api
+
+____________________________________________________________________________________________________
+
+
 	1- download winrar; https://www.rarlab.com/download.html    	(or 7-zip)
 	2- download github desktop; https://desktop.github.com/		(for cloning the repo)
 	3- download visual studio code; https://code.visualstudio.com/ 	(text editor)
@@ -12,21 +29,7 @@
 
 	- Pour cmder: extraire dans un dossier de de Documents (mes documents),
 		Créez des raccourcis du fichier cmder.exe.
-
-	- Dans visual studio code (or "vscode"):
-
-		"ctrl + shift + x"		shortcut pour le menu add-ons
-		"ctrl + shift + e"		shortcut pour revenir à l'arborescence des fichiers
-		"ctrl + b"				ferme le pannel
-
-		Add-ons utiles:
-
-			- vscode-json 		(permettra de rendre le dataset comprehensible)
-			- vscode-icons,		(meilleur icones)
-			- material theme 	(theme),
-			- one dark pro 		(theme),
-			- shades of purple 	(theme)
-
+		
 2)____________________________________________________________________________________________________
 
 	-- ouvrir cmder et installer yarn, un package manager. (rien à voir avec Hadoop);

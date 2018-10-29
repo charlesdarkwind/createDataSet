@@ -34,7 +34,7 @@ binance.exchangeInfo((error, data) => {
             created: Date.now(),
             interval,
             time: {},
-            closes: {},
+            close: {},
             open: {},
             low: {},
             high: {},
@@ -64,7 +64,7 @@ binance.exchangeInfo((error, data) => {
                     main[interval].open[symbol] = o;
                     main[interval].high[symbol] = h;
                     main[interval].low[symbol] = l;
-                    main[interval].closes[symbol] = c;
+                    main[interval].close[symbol] = c;
                     main[interval].volume[symbol] = v;
 
                     // Ecrire un fichier .json pour chaque interval,
