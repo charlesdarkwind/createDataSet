@@ -1,15 +1,16 @@
-"use strict";
 require('dotenv').config({ path: 'variables.env' });
 process.env.UV_THREADPOOL_SIZE = 128;
 const moment = require('moment');
+const async = require("async");
 const fs = require('fs');
 const intervals = ['1m', '3m', '5m', '15m', '30m', '1h', '2h', '4h', '6h', '8h', '12h', '1d', '3d', '1w', '1M'];
-const stamp = moment().format('YYYY-MMM-D-H-mm');
-const split = stamp.split('-');
-const datehuman = `${split[2]}-${split[1]}-${split[0]}_${split[3]}h${split[4]}`;
-let main = {};
-let delay = 0;
+const date = moment().format('YYYY-MMM-D-H-mm').split('-');
+const datehuman = `${date[2]}-${date[1]}-${date[0]}_${date[3]}h${date[4]}`;
+let failedPairs = [];
+let dataset = {};
+let count = 0;
 
+// create /dataSets if not there
 if (!fs.existsSync('./dataSets')) fs.mkdirSync('./dataSets');
 
 const binance = require('node-binance-api')().options({
@@ -20,66 +21,80 @@ const binance = require('node-binance-api')().options({
     test: true
 });
 
-console.log('Getting latest exchange infos...'); // https://api.binance.com/api/v1/exchangeInfo
+const queryData = ([pair, interval], cb) => {
+    binance.candlesticks(pair, interval, (err, ticks, symbol) => {
+        if (err) {
+            console.log(err);
+            failedPairs.push([pair, interval]); // keep track of errors
+            cb(null, `Error ${interval}, ${symbol}`);
+            return;
+        }
 
-binance.exchangeInfo((error, data) => {
-    if (error) console.error(error);
+        const t = [], h = [], l = [], c = [], o = [], v = [];
+        ticks.map(tick => {
+            t.push(parseFloat(tick[0]));
+            o.push(parseFloat(tick[1]));
+            h.push(parseFloat(tick[2]));
+            l.push(parseFloat(tick[3]));
+            c.push(parseFloat(tick[4]));
+            v.push(parseFloat(tick[5]));
+        });
 
-    fs.writeFileSync('./exchangeInfos.json', JSON.stringify(data, null, 4));
-    const allPairs = data.symbols.filter(pair => pair.quoteAsset == 'BTC').map(pair => pair.symbol);
+        const obj = dataset[symbol][interval];
+        obj.time = t;
+        obj.open = o;
+        obj.high = h;
+        obj.low = l;
+        obj.close = c;
+        obj.volume = v;
 
-    intervals.map(interval => { // Iterate over intervals
+        process.stdout.write('\033c');
+        console.log(`Done: ${symbol}\t${interval}\t( ${(count / 2280 * 100).toFixed(1)}% )`);
+        count++;
+        cb(null, `Done ${interval}, ${symbol}`);
+    });
+};
 
-        main[interval] = {
-            created: Date.now(),
-            interval,
-            time: {},
-            close: {},
-            open: {},
-            low: {},
-            high: {},
-            volume: {},
-        };
+// Save to .json
+const savedatasetToFile = () => {
+    fs.writeFile(`./dataSets/dataset_${datehuman}.json`, JSON.stringify(dataset), () => {
+        console.log('File saved, refresh explorer.');
+        process.exit(0);
+    });
+};
 
-        allPairs.map(pair => { /* Iterate over pairs
+// Loop queries in series
+const queryLoop = params => {
+    async.mapSeries(params, queryData, () => {
+        console.log(failedPairs); // re-run erroed pairs
+        if (failedPairs.length > 0) {
+            queryLoop(failedPairs);
+            failedPairs = [];
+        } else savedatasetToFile();
+    });
+};
 
-            * Delay queries so we don't bust the limit of 1200 requests per min
-            * 1 min / 1200 = 50ms, and we have 2280 queries (15 intervals * 152 pairs) */
-
-            setTimeout(() => {
-                binance.candlesticks(pair, interval, (err, ticks, symbol) => {
-                    if (err) console.error(err, err.body || '');
-
-                    let t = [], h = [], l = [], c = [], o = [], v = [];
-                    ticks.map(tick => {
-                        t.push(parseFloat(tick[0]));
-                        o.push(parseFloat(tick[1]));
-                        h.push(parseFloat(tick[2]));
-                        l.push(parseFloat(tick[3]));
-                        c.push(parseFloat(tick[4]));
-                        v.push(parseFloat(tick[5]));
-                    });
-
-                    main[interval].time[symbol] = t;
-                    main[interval].open[symbol] = o;
-                    main[interval].high[symbol] = h;
-                    main[interval].low[symbol] = l;
-                    main[interval].close[symbol] = c;
-                    main[interval].volume[symbol] = v;
-
-                    // Ecrire un fichier .json pour chaque interval,
-                    // windows écrase notre fichier 1m par le 1M.., on utilisera '1MO' pour le filename
-                    fs.writeFileSync(`./dataSets/${datehuman}_${interval === '1M' ? '1MO' : interval}.json`, JSON.stringify(main[interval]));
-
-                    console.log(`Done ${interval}, ${symbol}`);
-
-                    if (interval == intervals.length - 1 && symbol == allPairs.length - 1) {
-                        console.log(`Done all, refresh explorer!`);
-                        process.exit();
-                    }
-                });
-            }, delay); delay += 55;
+// normalizes params [[pair, interval], ...]
+const makeArr = pairs => {
+    const params = [];
+    pairs.map(pair => {
+        dataset[pair] = {};
+        intervals.map(interval => {
+            if (!dataset[pair][interval]) dataset[pair][interval] = {};
+            params.push([pair, interval]);
         });
     });
-});
+    queryLoop(params);
+};
 
+
+// Get exchange infos and list of pairs at
+// https://api.binance.com/api/v1/exchangeInfo
+binance.exchangeInfo((error, data) => {
+    if (error) console.error(error);
+    fs.writeFileSync('./exchangeInfos.json', JSON.stringify(data, null, 4));
+    const allPairs = data.symbols
+        .filter(pair => pair.quoteAsset == 'BTC')
+        .map(pair => pair.symbol);
+    makeArr(allPairs);
+});

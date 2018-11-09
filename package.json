@@ -1,12 +1,13 @@
 {
   "name": "data-gatherer",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "main": "createDataSet.js",
   "license": "MIT",
   "scripts": {
     "start": "node ./createDataSet.js"
   },
   "dependencies": {
+    "async": "2.6.1",
     "dotenv": "6.0.0",
     "moment": "2.22.2",
     "node-binance-api": "0.8.3",
