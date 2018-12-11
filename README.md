@@ -16,9 +16,9 @@
 -- Commandes
 
 			Dans le document de createDataSet que vous avez choisi:
-				" npm install i yarn -g "		install yarn
-				" yarn "								 	 	installe les dependencies
-				" yarn start "				  		Start le programme
+				" npm install i yarn -g "  install yarn
+				" yarn "  installe les dependencies
+				" yarn start "  Start le programme
 
 
 -- Faire son variables.env:
