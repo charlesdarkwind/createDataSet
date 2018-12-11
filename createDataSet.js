@@ -62,7 +62,7 @@ const saveDatasetToFile = () => {
     });
 };
 
-// Loop queries in series with parameters
+// Loop queries asynchronously in series with parameters
 const queryLoop = params => {
     async.mapSeries(params, queryData, () => {
         console.log(failedPairs); // re-run erroed pairs
